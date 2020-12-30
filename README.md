@@ -12,7 +12,7 @@ Features of this this project are:
 * Showing Dynamic Blog List and Blog Details.
 * We can Update and Delete Blog Post
 
-Home Screen (Post List)    |  Blog Details
+Home Screen (Posts List)    |  Blog Details
 :-------------------------:|:-------------------------:
 ![](screenshots/Posts.png)  |  ![](screenshots/Post_Details.png)
 
