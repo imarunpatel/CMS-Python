@@ -9,9 +9,10 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
-
+    
     {% if title %}
         <title>Django Blog - {{ title }}</title>
     {% else %}
@@ -20,26 +21,30 @@
 </head>
 <body>
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-info fixed-top">
+      <nav class="navbar navbar-expand-md fixed-top">
         <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">Django Blog</a>
+          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">Blog King</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+              <a class="nav-item nav-link" href="{% url 'blog-home' %}">HOME</a>
+              <a class="nav-item nav-link" href="{% url 'blog-about' %}">ABOUT</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-              <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-                <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+              <a class="nav-item nav-link" href="{% url 'post-create' %}">
+                <button class="btn btn-info">New Post</button>
+                </a>
+                <!-- <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a> -->
+                <!-- <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a> -->
               {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                <a class="nav-item nav-link" href="{% url 'login' %}">
+                  <button class="btn btn-info">Login</button>
+                </a>
+                <!-- <a class="nav-item nav-link" href="{% url 'register' %}">Register</a> -->
               {% endif %} 
             </div>
           </div>
@@ -60,41 +65,108 @@
           {% block content %}{% endblock %}
         </div>
         <div class="col-md-4">
-          {% if user.is_authenticated %}
-            <div class="content-section">
-              
-              <div class="user_box">
-                
-                <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Author" width="65px" height="60px">
-                <h3 >Hello {{ user.username }}</h3>
+          <div class="row">
+            <!-- <div class="col-12">
+                {% if user.is_authenticated %}
+                  <div class="content-section">
+                    
+                    <div class="user_box">
+                      
+                      <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Author" width="65px" height="60px">
+                      <h3 >Hello {{ user.username }}</h3>
+                    </div>
+                      <ul class="list-group">
+                        <li class="list-group-item list-group-item-light bg-info text-white">Latest Posts</li>               
+                        {% for post in posts %}    
+                          <li class="list-group-item list-group-item-light">{{ post.title }}</li>
+                        {% endfor %}
+                      </ul>
+                    </p>
+                  </div>
+                {% else %}
+                  <div class="content-section">
+                    <h3>Our Sidebar</h3>
+                    <p class='text-muted'>You can put any information here you'd like.
+                      <ul class="list-group">
+                        <li class="list-group-item list-group-item-light">Latest Posts</li>               
+                        {% for post in posts %}    
+                          <li class="list-group-item list-group-item-light">{{ post.title }}</li>
+                        {% endfor %}
+                      </ul>
+                    </p>
+                  </div>
+                  {% endif %}
+              </div> -->
+              <div class="col-12">
+              {% if user.is_authenticated %}
+                <div class="profile-sidebar">
+                  <!-- SIDEBAR USERPIC -->
+                  <div class="profile-userpic">
+                    <img src="{{ user.profile.image.url }}"class="img-responsive" alt="">
+                  </div>
+                  <!-- END SIDEBAR USERPIC -->
+                  <!-- SIDEBAR USER TITLE -->
+                  <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                      Hi, {{ user.username }}
+                    </div>
+                    <div class="profile-usertitle-job">
+                      Developer
+                    </div>
+                  </div>
+                  <!-- END SIDEBAR USER TITLE -->
+                  <!-- SIDEBAR BUTTONS -->
+                  <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-success btn-sm">Follow</button>
+                    <button type="button" class="btn btn-danger btn-sm">Message</button>
+                  </div>
+                  <!-- END SIDEBAR BUTTONS -->
+                  <!-- SIDEBAR MENU -->
+                  
+                  <div class="profile-usermenu">
+                    <ul class="nav">
+                      <li>
+                        <a href="{% url 'profile' %}">
+                        <i class="glyphicon glyphicon-home"></i>
+                        <span class="iconify" data-icon="et:profile-male" data-inline="false"></span> Profile </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <span class="iconify" data-icon="clarity:settings-line" data-inline="false"></span> Settings </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'logout' %}" target="_blank">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        <span style="color: red" class="iconify" data-icon="radix-icons:exit" data-inline="false"></span> Logout </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- END MENU -->
+                </div>
+                <div class="add-image">
+                  <img  src="https://img.advertgallery.com/wp-content/uploads/2020/10/flipkart-the-big-billion-days-indias-biggest-sale-is-live-shop-now-ad-toi-mumbai-16-10-2020.png"  />
+                </div>
+              {% else %}
+              <div class="card">
+                <img src="https://img.advertgallery.com/wp-content/uploads/2020/10/flipkart-the-big-billion-days-indias-biggest-sale-is-live-shop-now-ad-toi-mumbai-16-10-2020.png" height="600px" />
               </div>
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-light bg-info text-white">Latest Posts</li>               
-                  {% for post in posts %}    
-                    <li class="list-group-item list-group-item-light">{{ post.title }}</li>
-                  {% endfor %}
-                </ul>
-              </p>
+              {% endif %}
+              </div>
             </div>
-          {% else %}
-            <div class="content-section">
-              <h3>Our Sidebar</h3>
-              <p class='text-muted'>You can put any information here you'd like.
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Latest Posts</li>               
-                  {% for post in posts %}    
-                    <li class="list-group-item list-group-item-light">{{ post.title }}</li>
-                  {% endfor %}
-                </ul>
-              </p>
-            </div>
-            {% endif %}
-        </div>
+          </div>
+
+
+        
+
+
+
       </div>
     </main>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
